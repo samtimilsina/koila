@@ -346,6 +346,48 @@
             font-size: 14px;
         }
 
+        /* Festival Offer Video Section Styling */
+        .festival-offer-section {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .festival-header h3 {
+            font-size: 22px;
+            color: var(--accent-orange);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .festival-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .festival-video-container {
+            width: 100%;
+            max-height: 450px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--accent-orange);
+            background: rgba(30, 30, 30, 0.8);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .festival-video-container video {
+            width: 100%;
+            height: auto;
+            max-height: 450px;
+            object-fit: cover;
+            display: block;
+        }
+
         /* Container & Categories */
         .container {
             max-width: 1200px;
@@ -904,9 +946,21 @@
                 </div>
             </div>
         </div>
+        <div class="hero-branch-indicator" id="heroBranchTag">Select Branch to Order</div>
     </section>
 
-        <div class="hero-branch-indicator" id="heroBranchTag">Select Branch to Order</div>
+    <!-- Festival Offer Video Section -->
+    <section class="festival-offer-section">
+        <div class="festival-header">
+            <h3><i class="fas fa-gift"></i> Festival Offer</h3>
+            <p>Celebrate this festive season with special treats and joyful moments!</p>
+        </div>
+        <div class="festival-video-container">
+            <video controls playsinline>
+                <source src="image/teej.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
     </section>
 
     <a href="https://wa.me/9779800000000?text=Hello%2C%20I%20want%20to%20place%20an%20order%20at%20Koila%20Restaurant." id="whatsappFloatLink" class="whatsapp-float-container" target="_blank" title="Chat on WhatsApp">
