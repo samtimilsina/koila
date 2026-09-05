@@ -875,72 +875,40 @@
             .whatsapp-label-badge { display: none; }
         }
 
-        .reservation-section {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
-}
-
-.reservation-box {
-    background: var(--card-bg);
-    border: 1px solid var(--accent-orange);
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-.reservation-box h3 {
-    font-size: 22px;
-    color: var(--accent-orange);
-    margin-bottom: 8px;
-    display: flex;
+       .open-reserve-modal-btn {
+    background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(230, 46, 0, 0.4);
+    transition: 0.3s;
+    display: inline-flex;
     align-items: center;
     gap: 10px;
 }
 
-.reservation-box p {
-    color: var(--text-muted);
-    font-size: 14px;
-    margin-bottom: 20px;
-}
-
-.reservation-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.reservation-input {
-    width: 100%;
-    background: rgba(18, 18, 18, 0.85);
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-    padding: 12px 15px;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
-.reservation-input:focus {
-    border-color: var(--accent-orange);
-    outline: none;
-}
-
-.reserve-btn {
-    background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 6px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    width: 100%;
-    transition: 0.3s;
-}
-
-.reserve-btn:hover {
+.open-reserve-modal-btn:hover {
+    transform: translateY(-2px);
     opacity: 0.9;
+}
+
+.close-modal-x {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.close-modal-x:hover {
+    color: var(--accent-orange);
 }
     </style>
 </head>
@@ -1035,23 +1003,34 @@
         </div>
     </section>
     
-    <!-- Table Reservation Section -->
-<section class="reservation-section">
-    <div class="reservation-box">
-        <h3><i class="fas fa-chair"></i> Book a Table</h3>
-        <p>Reserve your table in advance for a seamless dining experience with family and friends.</p>
-        <div class="reservation-grid">
+   <!-- Reserve a Table Button -->
+<div style="text-align: center; margin: 30px 0;">
+    <button class="open-reserve-modal-btn" onclick="openReserveModal()">
+        <i class="fas fa-chair"></i> Reserve a Table
+    </button>
+</div>
+
+<!-- Reservation Modal Popup -->
+<div class="modal-overlay" id="reserveModal" style="display: none;">
+    <div class="modal-content" style="position: relative;">
+        <button class="close-modal-x" onclick="closeReserveModal()">&times;</button>
+        <h3 style="color: var(--accent-orange); margin-bottom: 10px;"><i class="fas fa-chair"></i> Book a Table</h3>
+        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Reserve your table in advance via WhatsApp.</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 12px; text-align: left;">
             <input type="text" id="resName" class="reservation-input" placeholder="Your Full Name *">
             <input type="text" id="resPhone" class="reservation-input" placeholder="Phone Number *">
             <input type="date" id="resDate" class="reservation-input">
             <input type="time" id="resTime" class="reservation-input">
             <input type="number" id="resGuests" class="reservation-input" placeholder="Number of Guests" min="1" value="2">
         </div>
-        <button class="reserve-btn" onclick="reserveTableWhatsApp()">
-            <i class="fab fa-whatsapp"></i> Reserve Table via WhatsApp
+
+        <button class="reserve-btn" onclick="reserveTableWhatsApp()" style="margin-top: 20px;">
+            <i class="fab fa-whatsapp"></i> Send Reservation via WhatsApp
         </button>
     </div>
-</section>
+</div>
+    </section>
 
     <a href="https://wa.me/9779800000000?text=Hello%2C%20I%20want%20to%20place%20an%20order%20at%20Koila%20Restaurant." id="whatsappFloatLink" class="whatsapp-float-container" target="_blank" title="Chat on WhatsApp">
         <span class="whatsapp-label-badge">Order Here</span>
@@ -1734,6 +1713,41 @@
             let whatsappUrl = `https://wa.me/977${selectedBranchPhone}?text=${message}`;
             window.open(whatsappUrl, '_blank');
         }
+        function openReserveModal() {
+    document.getElementById('reserveModal').style.display = 'flex';
+}
+
+function closeReserveModal() {
+    document.getElementById('reserveModal').style.display = 'none';
+}
+
+function reserveTableWhatsApp() {
+    let name = document.getElementById('resName').value.trim();
+    let phone = document.getElementById('resPhone').value.trim();
+    let date = document.getElementById('resDate').value;
+    let time = document.getElementById('resTime').value;
+    let guests = document.getElementById('resGuests').value;
+
+    if (!name || !phone) {
+        alert('Please enter your full name and phone number for table reservation.');
+        return;
+    }
+
+    let message = `*Table Reservation Request*%0A`;
+    message += `----------------------------------%0A`;
+    message += `*Branch:* Koila - ${selectedBranchName || 'Gatthaghar'}%0A`;
+    message += `*Name:* ${name}%0A`;
+    message += `*Phone:* ${phone}%0A`;
+    if (date) message += `*Date:* ${date}%0A`;
+    if (time) message += `*Time:* ${time}%0A`;
+    message += `*Guests:* ${guests}%0A`;
+    message += `----------------------------------%0A`;
+    message += `Please confirm my table reservation. Thank you!`;
+
+    let whatsappUrl = `https://wa.me/977${selectedBranchPhone}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+    closeReserveModal();
+}
 
         // Initialize App
         renderCategories();
