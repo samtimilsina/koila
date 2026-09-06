@@ -937,7 +937,32 @@
 .close-modal-x:hover {
     color: var(--accent-orange);
 }
-    </style>
+    
+        /* Social media respective colors */
+        .footer-col a[title="Facebook"] { color: var(--text-muted) !important; }
+        .footer-col a[title="Instagram"] { color: var(--text-muted) !important; }
+        .footer-col a[title="TikTok"] { color: var(--text-muted) !important; }
+
+        .footer-col a[title="Facebook"]:hover,
+        .footer-col a[title="Facebook"]:hover i { color: #1877f2 !important; }
+
+        .footer-col a[title="Instagram"]:hover,
+        .footer-col a[title="Instagram"]:hover i { color: #e4405f !important; }
+
+        .footer-col a[title="TikTok"]:hover,
+        .footer-col a[title="TikTok"]:hover i { color: #00f2ea !important; }
+
+        @media (max-width: 768px) {
+            .footer-col a[title="Facebook"],
+            .footer-col a[title="Facebook"] i { color: #1877f2 !important; }
+
+            .footer-col a[title="Instagram"],
+            .footer-col a[title="Instagram"] i { color: #e4405f !important; }
+
+            .footer-col a[title="TikTok"],
+            .footer-col a[title="TikTok"] i { color: #00f2ea !important; }
+        }
+</style>
 </head>
 <body>
 
