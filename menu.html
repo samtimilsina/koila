@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Koila Menu | Multi Cuisine Restaurant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: rgba(30, 30, 30, 0.75);
+            --accent-red: #e62e00;
+            --accent-orange: #ff6600;
+            --text-color: #ffffff;
+            --text-muted: #b0b0b0;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            position: relative;
+            padding-bottom: 0;
+        }
+
+        /* Background Logo Watermark */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:url('image/bg.png') no-repeat center center;
+            background-size: 50vw;
+            opacity: 0.18;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Location Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: rgba(30, 30, 30, 0.95);
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            border: 2px solid var(--accent-red);
+            box-shadow: 0 10px 30px rgba(230, 46, 0, 0.3);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 15px;
+            color: var(--accent-orange);
+        }
+
+        .modal-content p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        .branch-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .branch-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Header & Navbar */
+        header {
+            background: rgba(18, 18, 18, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+        }
+
+        .logo-area h1 {
+            font-size: 22px;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .branch-tag {
+            background: rgba(230, 46, 0, 0.2);
+            border: 1px solid var(--accent-red);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--accent-orange);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .branch-tag:hover {
+            background: rgba(230, 46, 0, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .cart-icon-btn {
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cart-badge {
+            background: var(--accent-red);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+        }
+
+        /* Search Bar Section */
+        .search-bar-container {
+            max-width: 600px;
+            margin: 20px auto 0 auto;
+            padding: 0 20px;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input-wrapper i {
+            position: absolute;
+            left: 15px;
+            color: var(--accent-orange);
+            font-size: 16px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(30, 30, 30, 0.85);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 12px 15px 12px 45px;
+            border-radius: 25px;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-orange);
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 102, 0, 0.2);
+        }
+
+        /* Auto-Scrolling Promo Banner */
+        .promo-slider-container {
+            background: linear-gradient(90deg, #1a0500, #260d00, #1a0500);
+            border-bottom: 2px solid var(--accent-red);
+            border-top: 1px solid var(--border-color);
+            overflow: hidden;
+            padding: 12px 0;
+            white-space: nowrap;
+            position: relative;
+            margin-top: 15px;
+        }
+
+        .promo-slider-track {
+            display: inline-block;
+            animation: scrollPromo 25s linear infinite;
+        }
+
+        .promo-slide-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 50px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .promo-slide-item i {
+            color: var(--accent-orange);
+            font-size: 18px;
+        }
+
+        .promo-slide-item span {
+            color: var(--accent-orange);
+            font-weight: bold;
+        }
+
+        @keyframes scrollPromo {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('image/hero.png') center/cover;
+            padding: 45px 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-red);
+        }
+        .hero h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .hero h3 {
+            font-size: 20px;
+            color: var(--accent-orange);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .hero p {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        .hero-established {
+            font-size: 13px;
+            color: var(--accent-orange);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .hero-info-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto 15px auto;
+        }
+
+        .hero-info-card {
+            background: rgba(30, 30, 30, 0.75);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 18px;
+            min-width: 230px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hero-info-card i {
+            font-size: 22px;
+            color: var(--accent-orange);
+            background: rgba(255, 102, 0, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .hero-info-card div h4 {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .hero-info-card div p {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .hero-branch-indicator {
+            display: inline-block;
+            margin-top: 10px;
+            background: rgba(230, 46, 0, 0.2);
+            border: 1px solid var(--accent-red);
+            padding: 5px 18px;
+            border-radius: 20px;
+            color: var(--accent-orange);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        /* Festival Offer Video Section Styling */
+        .festival-offer-section {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .festival-header h3 {
+            font-size: 22px;
+            color: var(--accent-orange);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .festival-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .festival-video-container {
+    width: 100%;
+    max-width: 360px; 
+    aspect-ratio: 9 / 16; 
+    border-radius: 12px;
+    overflow: hidden; 
+    border: 2px solid var(--accent-orange);
+    background: rgba(30, 30, 30, 0.8);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    margin: 0 auto; /* सेन्टरमा ल्याउन */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+        }
+
+        .festival-video-container video {
+    width: 100%;
+    height: 100%; 
+    object-fit: cover; 
+    display: block;
+        }
+
+        /* Container & Categories */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .categories-wrapper {
+            position: sticky;
+            top: 73px;
+            background: rgba(18, 18, 18, 0.96);
+            backdrop-filter: blur(12px);
+            z-index: 900;
+            padding: 14px 0;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            overflow: visible;
+            padding: 2px 0 6px;
+            max-width: 1150px;
+            margin: 0 auto;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-btn {
+            background: rgba(30, 30, 30, 0.82);
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 9px 17px;
+            border-radius: 10px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.25s ease;
+            font-weight: 600;
+            font-size: 13px;
+            line-height: 1.2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+        }
+
+        .cat-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+            .categories-wrapper {
+                top: 62px;
+                padding: 10px 0;
+            }
+
+            .categories {
+                justify-content: flex-start;
+                gap: 8px;
+                padding: 2px 2px 5px;
+            }
+
+            .cat-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+                border-radius: 9px;
+            }
+        }
+
+        .cat-btn.active, .cat-btn:hover {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+        }
+
+        /* Best Sellers */
+        .bestseller-section {
+            margin-bottom: 35px;
+        }
+
+        .bestseller-section h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: var(--accent-orange);
+            border-left: 4px solid var(--accent-orange);
+            padding-left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bestseller-carousel {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 5px 5px 15px 5px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .bestseller-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .bestseller-card {
+            min-width: 260px;
+            background: var(--card-bg);
+            border: 1px solid var(--accent-orange);
+            border-radius: 8px;
+            padding: 15px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            margin-bottom: 35px;
+        }
+
+        .menu-section h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent-orange);
+            padding-left: 10px;
+            color: var(--accent-orange);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 15px;
+        }
+
+        .menu-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: 0.3s;
+        }
+
+        .menu-item:hover {
+            border-color: var(--accent-red);
+            background: rgba(30, 30, 30, 0.95);
+        }
+
+        .item-info h4 {
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .item-info p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 15px;
+            font-weight: bold;
+            color: var(--accent-orange);
+        }
+
+        /* Buttons & Qty Controls */
+        .add-btn {
+            background: transparent;
+            border: 1px solid var(--accent-red);
+            color: var(--text-color);
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 500;
+            font-size: 13px;
+        }
+
+        .add-btn:hover {
+            background: var(--accent-red);
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--accent-red);
+            border-radius: 4px;
+            overflow: hidden;
+            background: rgba(230, 46, 0, 0.1);
+        }
+
+        .qty-btn {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .qty-display {
+            padding: 0 10px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float-container {
+            position: fixed;
+            bottom: 95px;
+            right: 20px;
+            z-index: 2300;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .whatsapp-label-badge {
+            background-color: #25d366;
+            color: white;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
+        }
+
+        .whatsapp-icon-btn {
+            background-color: #25d366;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 26px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Quick Add Floating Bar on Mobile */
+        .mobile-quick-cart-bar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #1f1f1f, #2a0c00);
+            border-top: 2px solid var(--accent-orange);
+            padding: 12px 20px;
+            z-index: 2500;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.6);
+        }
+
+        .mobile-quick-cart-bar.active {
+            display: flex;
+        }
+
+        .quick-cart-info h4 {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .quick-cart-info p {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--accent-orange);
+        }
+
+        .quick-cart-btn {
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Cart Sidebar & Checkout Styles */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: 400px;
+            height: 100%;
+            background: rgba(30, 30, 30, 0.98);
+            backdrop-filter: blur(15px);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+            z-index: 3000;
+            transition: 0.4s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 18px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .prep-time-badge {
+            background: rgba(255, 102, 0, 0.15);
+            border: 1px dashed var(--accent-orange);
+            color: var(--accent-orange);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .cart-item {
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cart-item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .special-request-input, .customer-info-input {
+            width: 100%;
+            background: rgba(18, 18, 18, 0.8);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .special-request-input:focus, .customer-info-input:focus {
+            border-color: var(--accent-orange);
+            outline: none;
+        }
+
+        .promo-box-area {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .promo-input {
+            flex: 1;
+            background: rgba(18, 18, 18, 0.8);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .promo-btn {
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .cart-footer {
+            padding: 18px;
+            border-top: 1px solid var(--border-color);
+            background: rgba(18, 18, 18, 0.95);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #25d366, #1ebe5d);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        /* Professional Footer Styling */
+        footer {
+            background: #0a0a0a;
+            border-top: 2px solid var(--accent-red);
+            color: var(--text-muted);
+            padding: 50px 20px 20px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-col h3 {
+            font-size: 18px;
+            color: var(--accent-orange);
+            margin-bottom: 15px;
+            border-left: 3px solid var(--accent-orange);
+            padding-left: 8px;
+        }
+
+        .footer-col p, .footer-col li {
+            font-size: 14px;
+            margin-bottom: 10px;
+            list-style: none;
+        }
+
+        .footer-col ul {
+            padding: 0;
+        }
+
+        .footer-col a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--accent-orange);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 12px 15px; }
+            .logo-area h1 { font-size: 18px; }
+            .hero { padding: 30px 15px; }
+            .hero h2 { font-size: 24px; }
+            .hero h3 { font-size: 18px; }
+            .hero-info-grid { flex-direction: column; gap: 8px; }
+            .hero-info-card { width: 100%; min-width: 100%; }
+            .menu-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .cart-sidebar { width: 100%; right: -100%; }
+            .cart-sidebar.open { right: 0; }
+            .whatsapp-label-badge { display: none; }
+        }
+
+       .open-reserve-modal-btn {
+    background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(230, 46, 0, 0.4);
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.open-reserve-modal-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.close-modal-x {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.close-modal-x:hover {
+    color: var(--accent-orange);
+}
+    </style>
+</head>
+<body>
+
+    <div class="modal-overlay" id="branchModal">
+        <div class="modal-content">
+            <h2>Koila Multi Cuisine Restaurant</h2>
+            <p>Please select your preferred restaurant location to proceed:</p>
+            <button class="branch-btn" onclick="selectBranch('Gatthaghar', '9761799545', '10:00 AM - 10:00 PM')">Koila - Gatthaghar (Ph: 9761799545)</button>
+            <button class="branch-btn" onclick="selectBranch('Sankhamul', '9863595640', '10:00 AM - 10:00 PM')">Koila - Sankhamul, Dovan Pool (Ph: 9863595640)</button>
+            <button class="branch-btn" onclick="selectBranch('Shorakhutte', '9841996645', '07:00 AM - 10:00 PM')">Koila - Shorakhutte (Ph: 9841996645)</button>
+        </div>
+    </div>
+
+   <header>
+        <div class="logo-area" style="display: flex; align-items: center; gap: 12px;">
+            <img src="image/bg.png" alt="Koila Logo" style="width: 40px; height: 40px; object-fit: contain; border-radius: 50%;">
+            <h1 style="margin: 0; font-size: 22px;">Koila Multi Cuisine Restaurant</h1>
+        </div>
+        <div class="nav-links">
+            <span id="displayBranch" class="branch-tag" onclick="openBranchModal()" title="Click to change location">
+                <i class="fas fa-map-marker-alt"></i> Select Branch
+            </span>
+            <a href="main.html" class="branch-tag" style="text-decoration:none;">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <button class="cart-icon-btn" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="cartCount">0</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="search-bar-container">
+        <div class="search-input-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" id="menuSearchInput" class="search-input" placeholder="Search delicious dishes, momo, pizza, biryani..." oninput="handleSearch(this.value)">
+        </div>
+    </div>
+
+    <div class="promo-slider-container">
+        <div class="promo-slider-track">
+            <div class="promo-slide-item"><i class="fas fa-fire"></i> Special Offer: Get <span>Chicken Hadi Biryani</span> with Special Discount Today!</div>
+            <div class="promo-slide-item"><i class="fas fa-glass-cheers"></i> Fresh <span>Beer 1500ml</span> available at chilled temperature!</div>
+            <div class="promo-slide-item"><i class="fas fa-utensils"></i> Try out our new <span>Koila Special Combo 3</span> for family gatherings.</div>
+            <div class="promo-slide-item"><i class="fas fa-tag"></i> Use Promo Code <span>DISCOUNT10</span> for 10% OFF on your order!</div>
+        </div>
+    </div>
+
+    <section style="padding: 34px 20px 12px; text-align:center; border-bottom:1px solid var(--border-color);">
+        <h2 style="color:var(--accent-orange); font-size:30px; margin-bottom:6px;">Explore Our Menu</h2>
+        <p style="color:var(--text-muted); font-size:14px;">Choose your favorite dishes and order directly from your selected Koila branch.</p>
+        <div id="menuBranchTag" style="display:inline-block; margin-top:12px; color:var(--accent-orange); font-weight:600;"></div>
+    </section>
+
+    <a href="https://wa.me/9779800000000?text=Hello%2C%20I%20want%20to%20place%20an%20order%20at%20Koila%20Restaurant." id="whatsappFloatLink" class="whatsapp-float-container" target="_blank" title="Chat on WhatsApp">
+        <span class="whatsapp-label-badge">Order Here</span>
+        <div class="whatsapp-icon-btn">
+            <i class="fab fa-whatsapp"></i>
+        </div>
+    </a>
+
+    <div class="mobile-quick-cart-bar" id="mobileQuickBar">
+        <div class="quick-cart-info">
+            <h4 id="mobileQuickCount">0 Items in Cart</h4>
+            <p id="mobileQuickTotal">NPR 0.00</p>
+        </div>
+        <button class="quick-cart-btn" onclick="toggleCart()">
+            <i class="fas fa-shopping-cart"></i> View Cart
+        </button>
+    </div>
+
+    <div class="container">
+        <div class="categories-wrapper">
+            <div class="categories" id="categoryFilters">
+                <button class="cat-btn active" onclick="filterCategory('all', this)">All Items</button>
+            </div>
+        </div>
+
+        <div class="bestseller-section">
+            <h3><i class="fas fa-star"></i> Trending & Best Sellers</h3>
+            <div class="bestseller-carousel" id="bestsellerContainer"></div>
+        </div>
+
+        <div id="menuContainer"></div>
+    </div>
+
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Your Order Cart</h3>
+            <button class="close-cart" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItemsList">
+            <p style="color: var(--text-muted); text-align: center;">Your cart is empty.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="prep-time-badge">
+                <i class="fas fa-clock"></i> Est. Preparation Time: 25 - 35 Mins
+            </div>
+
+            <div style="margin-bottom: 12px;">
+                <input type="text" id="customerName" class="customer-info-input" placeholder="Your Name *">
+                <input type="text" id="customerPhone" class="customer-info-input" placeholder="Phone Number / Delivery Address *">
+            </div>
+
+            <div class="promo-box-area">
+                <input type="text" id="promoInput" class="promo-input" placeholder="Promo code (e.g. DISCOUNT10)">
+                <button class="promo-btn" onclick="applyPromoCode()">Apply</button>
+            </div>
+            <div id="promoMsg" style="font-size: 11px; margin-bottom: 10px; color: var(--accent-orange);"></div>
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px;">
+                <span>Subtotal:</span>
+                <span id="cartSubtotalPrice">NPR 0.00</span>
+            </div>
+            <div id="discountRow" style="display: none; justify-content: space-between; margin-bottom: 5px; font-size: 13px; color: #25d366;">
+                <span>Discount (<span id="discountNameText"></span>):</span>
+                <span id="discountAmountText">- NPR 0.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: bold; font-size: 16px;">
+                <span>Total:</span>
+                <span id="cartTotalPrice" style="color: var(--accent-orange);">NPR 0.00</span>
+            </div>
+
+            <button class="checkout-btn" onclick="checkoutWhatsApp()">
+                <i class="fab fa-whatsapp" style="font-size: 20px;"></i> Order via WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- Updated Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3>Koila Restaurant</h3>
+                <p>Where Coal Meets Culinary Art. Bringing you smoky, sizzling, and unforgettable multi-cuisine dining experiences across Kathmandu.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Our Branches</h3>
+                <p><i class="fas fa-map-marker-alt" style="color:var(--accent-orange);"></i> Gatthaghar (Ph: 9761799545)</p>
+                <p><i class="fas fa-map-marker-alt" style="color:var(--accent-orange);"></i> Sankhamul, Dovan Pool (Ph: 9863595640)</p>
+                <p><i class="fas fa-map-marker-alt" style="color:var(--accent-orange);"></i> Shorakhutte (Ph: 9841996645)</p>
+            </div>
+            <div class="footer-col">
+                <h3>Opening Hours</h3>
+                <p>Gatthaghar & Sankhamul: 10:00 AM - 10:00 PM</p>
+                <p>Shorakhutte: 07:00 AM - 10:00 PM</p>
+            </div>
+            <div class="footer-col">
+                <h3>Connect With Us</h3>
+                <p>Follow us on social media for updates and offers:</p>
+                <div style="display: flex; gap: 15px; margin-top: 12px; font-size: 24px;">
+                    <a href="https://www.facebook.com/koilamulticuisine" target="_blank" title="Facebook" style="color: var(--text-muted); transition: 0.3s;"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/koilamultiplecuisine/" target="_blank" title="Instagram" style="color: var(--text-muted); transition: 0.3s;"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@koilarestaurant?lang=en" target="_blank" title="TikTok" style="color: var(--text-muted); transition: 0.3s;"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Koila Multi Cuisine Restaurant. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const menuData = {
+            "Koila Combo": [
+                { name: "Fresh Beer 1500ml", price: 1400, desc: "Chilled fresh beer." },
+                { name: "Combo 1", price: 1299, desc: "Mustange Aalu (1 Plate), Chicken Steam Mo:Mo (1 Plate), Chicken Wings Poleko (10 Pcs), Chicken Biryani (500 gm)" },
+                { name: "Combo 2", price: 2250, desc: "Chicken Hadi Biryani (1), Chicken Sekuwa with Bone (500 gm), Chicken Steam Mo:Mo (1 Plt), Mustang Aalu (1 Plt), Chicken Wings Poleko (500 gm)" },
+                { name: "Combo 3", price: 3550, desc: "Chicken Hadi Biryani (1), Chicken Sekuwa with Bone (500 gm), Chinese Chicken Chilly (1 Plt), Chicken Tandoori (Half), Chicken Steam Mo:Mo (1 Plt), Mustang Aalu (1 Plt), Chicken Pizza (1)" },
+                { name: "Combo 4", price: 2850, desc: "Chicken Biryani (500 gm), Chicken Pizza (1), Chicken Steam Mo:Mo (1 Plt), Koila Chicken (250 gm), Mustang Aalu (1 Plt), Chicken Tandoori (Half)" }
+            ],
+            "Breakfast": [
+                { name: "Koila Special Breakfast", price: 745, desc: "Bread Toast With Butter/Jam, Sausage (Boiled Or Saute), Hash Brown Potato, Egg Any Style, Tea/Coffee/Juice" },
+                { name: "American Breakfast", price: 745, desc: "Bread Toast With Butter/Jam, Bacon, Sausage (Boiled Or Saute), Hash Brown Potato, Egg Any Style, Tea/Coffee/Juice" },
+                { name: "Plain Toast", price: 75, desc: "Crispy plain toast." },
+                { name: "Toast 'B' Jam", price: 115, desc: "Toast served with butter and jam." },
+                { name: "French Toast", price: 145, desc: "Classic sweet-savory french toast." },
+                { name: "Scrambled Egg Toast", price: 245, desc: "Toast with creamy scrambled eggs." },
+                { name: "Boiled Egg", price: 125, desc: "Healthy boiled eggs." },
+                { name: "Masala Omelette", price: 175, desc: "Spiced egg omelette." },
+                { name: "Cheese Omelette", price: 285, desc: "Omelette loaded with melted cheese." }
+            ],
+            "Soup": [
+                { name: "Veg Soup", price: 375, desc: "Warm vegetable soup." },
+                { name: "Chicken Soup", price: 395, desc: "Hearty chicken soup." },
+                { name: "Mushroom Soup", price: 395, desc: "Creamy mushroom soup." },
+                { name: "Hot & Sour Veg. Soup", price: 395, desc: "Spicy and tangy vegetable soup." },
+                { name: "Hot & Sour Non-Veg. Soup", price: 435, desc: "Spicy and tangy non-veg soup." }
+            ],
+            "Nepali Khaja Set": [
+                { name: "Veg. Khaja Set", price: 375, desc: "Peanut Sadheko/Bhujiya/Chiura/Mushroom Chhoila/Piro Aalu & Salad" },
+                { name: "Chicken Khaja Set", price: 495, desc: "Peanut Sadheko/Bhujiya/Chiura/Chicken/Piro Aalu & Salad" },
+                { name: "Mutton Khaja Set", price: 745, desc: "Peanut Sadheko/Bhujiya/Chiura/Mutton/Piro Aalu & Salad" }
+            ],
+            "Veg. Snacks": [
+                { name: "Mustange Aloo", price: 295, desc: "Spicy Mustang style potatoes." },
+                { name: "Veg. Tempura", price: 325, desc: "Crispy fried vegetable tempura." },
+                { name: "Cheese Ball", price: 495, desc: "Golden fried cheesy balls." },
+                { name: "Corn Fry/Boil", price: 345, desc: "Crispy fried or boiled sweet corn." },
+                { name: "Kaju Fry", price: 695, desc: "Crispy fried cashew nuts." },
+                { name: "French Fries", price: 295, desc: "Classic golden fries." },
+                { name: "Veg. Pakauda", price: 265, desc: "Assorted veg fritters." },
+                { name: "Onion Pakauda", price: 295, desc: "Crispy onion fritters." },
+                { name: "Paneer Pakauda", price: 495, desc: "Batter-fried paneer chunks." },
+                { name: "Chips Chilli", price: 345, desc: "Potato chips tossed in chilli sauce." },
+                { name: "Paneer Chilli", price: 495, desc: "Wok-tossed paneer chilli." },
+                { name: "Mushroom Chilli", price: 385, desc: "Spicy mushroom preparation." },
+                { name: "Peanut Sadheko", price: 285, desc: "Nepali style tossed peanuts." },
+                { name: "Dry Papad (2 Pcs)", price: 165, desc: "Crispy roasted papad." },
+                { name: "Masala Papad (2 Pcs)", price: 215, desc: "Papad topped with spicy onion-tomato mix." }
+            ],
+            "Non-Veg. Snacks": [
+                { name: "Koila Chicken", price: 495, desc: "Signature Koila chicken dish." },
+                { name: "Chicken Tawa", price: 465, desc: "Tawa cooked chicken." },
+                { name: "Kung Pao Chicken", price: 495, desc: "Classic spicy stir-fried chicken with peanuts." },
+                { name: "Chicken 65", price: 495, desc: "Spicy deep-fried chicken." },
+                { name: "Fish Finger", price: 495, desc: "Crispy breaded fish fingers." },
+                { name: "Fish & Chips", price: 495, desc: "Classic fish fry with fries." },
+                { name: "Khasiko Bhutan", price: 495, desc: "Traditional spiced goat offal." },
+                { name: "Nepali Style Mutton Pakku", price: 665, desc: "Traditional tender mutton pakku." },
+                { name: "Basa Fish Fry (500gm)", price: 1150, desc: "Crispy fried basa fish 500gm." },
+                { name: "Basa Fish Fry (1000gm)", price: 2200, desc: "Crispy fried basa fish 1kg." },
+                { name: "Buff Chilly", price: 465, desc: "Spicy buff chilli." },
+                { name: "Chicken Chilly", price: 495, desc: "Spicy chicken chilli." },
+                { name: "Pork Chilly", price: 495, desc: "Spicy pork chilli." },
+                { name: "Fried Wings (6pcs)", price: 425, desc: "Crispy fried chicken wings." },
+                { name: "Spicy Wings (6pcs)", price: 465, desc: "Hot and spicy chicken wings." },
+                { name: "Chicken Meat Balls", price: 385, desc: "Juicy chicken meatballs." },
+                { name: "Buff Sausage Chilly", price: 375, desc: "Buff sausage tossed in chilli." },
+                { name: "Chicken Sausage Chilly", price: 375, desc: "Chicken sausage tossed in chilli." },
+                { name: "Egg Pakauda", price: 375, desc: "Batter-fried egg fritters." },
+                { name: "Chicken Pakauda", price: 445, desc: "Crispy spiced chicken fritters." },
+                { name: "Chicken Sadheko", price: 445, desc: "Tossed spiced chicken salad." },
+                { name: "Chicken Drumstick (6 Pcs)", price: 495, desc: "Crispy chicken drumsticks." },
+                { name: "Chicken Lollipop (6 Pcs)", price: 495, desc: "Juicy chicken lollipops." },
+                { name: "Buff/Chicken Sausage Stick (3pcs)", price: 235, desc: "Sausage on sticks." }
+            ],
+            "Sizzler": [
+                { name: "Veg Sizzler", price: 495, desc: "Sizzling vegetable platter." },
+                { name: "Chicken Sizzler", price: 745, desc: "Sizzling chicken platter." },
+                { name: "Basa Fish Sizzler", price: 1195, desc: "Sizzling fish platter." }
+            ],
+            "Mo:Mo": [
+                { name: "Veg Steam Mo:Mo", price: 225, desc: "Steamed veg dumplings." },
+                { name: "Veg Fried Mo:Mo", price: 245, desc: "Fried veg dumplings." },
+                { name: "Veg Kothey Mo:Mo", price: 235, desc: "Pan-fried half-steamed veg momo." },
+                { name: "Veg Jhol Mo:Mo", price: 235, desc: "Veg momo served in warm sesame-tomato broth." },
+                { name: "Veg 'C' Fried Mo:Mo", price: 245, desc: "Veg chilli fried momo." },
+                { name: "Paneer Steam Mo:Mo", price: 345, desc: "Steamed paneer dumplings." },
+                { name: "Paneer Kothey Mo:Mo", price: 345, desc: "Pan-fried paneer momo." },
+                { name: "Paneer Jhol Mo:Mo", price: 325, desc: "Paneer momo in jhol." },
+                { name: "Buff Steam Mo:Mo", price: 285, desc: "Steamed buff dumplings." },
+                { name: "Buff Fried Mo:Mo", price: 295, desc: "Fried buff dumplings." },
+                { name: "Buff Kothey Mo:Mo", price: 295, desc: "Pan-fried buff momo." },
+                { name: "Buff Jhol Mo:Mo", price: 315, desc: "Buff momo in jhol." },
+                { name: "Buff 'C' Fried Mo:Mo", price: 325, desc: "Buff chilli fried momo." },
+                { name: "Chicken Steam Mo:Mo", price: 285, desc: "Steamed chicken dumplings." },
+                { name: "Chicken Fried Mo:Mo", price: 295, desc: "Fried chicken dumplings." },
+                { name: "Chicken Kothey Mo:Mo", price: 295, desc: "Pan-fried chicken momo." },
+                { name: "Chicken Jhol Mo:Mo", price: 315, desc: "Chicken momo in jhol." },
+                { name: "Chicken 'C' Fried Mo:Mo", price: 325, desc: "Chicken chilli fried momo." },
+                { name: "Chilli Mo:Mo", price: 395, desc: "Tossed in spicy chilli sauce." },
+                { name: "Chhoila Mo:Mo", price: 395, desc: "Prepared with authentic chhoila flavors." }
+            ],
+            "Pizza": [
+                { name: "Margherita Pizza", price: 565, desc: "Tomato Sauce/Mozzarella Cheese & Basil" },
+                { name: "Mushroom Pizza", price: 655, desc: "Tomato Sauce/Mozzarella Cheese & Roasted Mushroom" },
+                { name: "Mixed Vegetable Pizza", price: 655, desc: "Tomato Sauce/Mozzarella Cheese/Capsicum/Mushroom/Black Olives/Tomato" },
+                { name: "Smoked Chicken Pizza", price: 765, desc: "Tomato Sauce/Mozzarella Cheese & Smoked Chicken" },
+                { name: "Chicken Tandoori Pizza", price: 745, desc: "Tomato Sauce/Mozzarella Cheese & Onion With Tandoori Chicken" },
+                { name: "Chicken Chhoila Pizza", price: 745, desc: "Tomato Sauce/Mozzarella Cheese & Chhoila Chicken" },
+                { name: "Meat Lovers Pizza", price: 975, desc: "Sausage, Smoked Chicken, Pork, Ham, Tandoori Chicken & Beans" },
+                { name: "Koila Special Pizza", price: 995, desc: "Mushroom, Smoked Chicken, Tandoori Chicken, Ham, Beans, Salami, Black Olives & Sweet Corn" },
+                { name: "Topping Cheese (Extra)", price: 165, desc: "Extra cheese topping." }
+            ],
+            "Healthy Boiled Items": [
+                { name: "Mixed Veg. Boil", price: 345, desc: "Healthy boiled mixed vegetables." },
+                { name: "Chicken Boil", price: 415, desc: "Healthy boiled chicken." }
+            ],
+            "Chowmein & Thukpa": [
+                { name: "Veg. Chowmein", price: 265, desc: "Stir-fried noodles with vegetables." },
+                { name: "Chicken Chowmein", price: 325, desc: "Noodles with chicken." },
+                { name: "Buff Chowmein", price: 325, desc: "Noodles with buff." },
+                { name: "Egg Chowmein", price: 295, desc: "Noodles with egg." },
+                { name: "Mixed Chowmein", price: 385, desc: "Mixed meat and veg noodles." },
+                { name: "Veg. Thukpa", price: 265, desc: "Hot noodle soup with vegetables." },
+                { name: "Chicken Thukpa", price: 325, desc: "Hot noodle soup with chicken." },
+                { name: "Buff Thukpa", price: 325, desc: "Hot noodle soup with buff." },
+                { name: "Egg Thukpa", price: 295, desc: "Hot noodle soup with egg." },
+                { name: "Mixed Thukpa", price: 385, desc: "Mixed noodle soup." }
+            ],
+            "Fried Rice": [
+                { name: "Plain Rice", price: 195, desc: "Steamed plain rice." },
+                { name: "Veg. Fried Rice", price: 265, desc: "Fried rice with vegetables." },
+                { name: "Chicken Fried Rice", price: 325, desc: "Fried rice with chicken." },
+                { name: "Egg Fried Rice", price: 325, desc: "Fried rice with egg." },
+                { name: "Mixed Fried Rice", price: 395, desc: "Mixed fried rice." },
+                { name: "Buff Fried Rice", price: 325, desc: "Fried rice with buff." }
+            ],
+            "Burger": [
+                { name: "Veg. Burger", price: 235, desc: "Veg burger patty." },
+                { name: "Ham Burger", price: 225, desc: "Classic hamburger." },
+                { name: "Cheese Burger", price: 345, desc: "Burger loaded with cheese." },
+                { name: "Crunchy Chicken Burger", price: 295, desc: "Crunchy fried chicken burger." }
+            ],
+            "Sandwich": [
+                { name: "Veg. Sandwich", price: 245, desc: "Fresh vegetable sandwich." },
+                { name: "Chicken Sandwich", price: 295, desc: "Tender chicken sandwich." },
+                { name: "Cheese Sandwich", price: 345, desc: "Melted cheese sandwich." },
+                { name: "Club Sandwich", price: 485, desc: "Multi-layered club sandwich." }
+            ],
+            "Chhoila": [
+                { name: "Mushroom Chhoila", price: 395, desc: "Spiced grilled mushroom salad." },
+                { name: "Buff Chhoila", price: 495, desc: "Traditional spiced buff chhoila." },
+                { name: "Chicken Chhoila", price: 495, desc: "Traditional spiced chicken chhoila." },
+                { name: "Mutton Chhoila", price: 645, desc: "Traditional spiced mutton chhoila." }
+            ],
+            "Koila Biryani": [
+                { name: "Veg. Biryani", price: 495, desc: "Fragrant veg biryani." },
+                { name: "Chicken Hadi Biryani", price: 715, desc: "Traditional slow-cooked chicken biryani." },
+                { name: "Mutton Hadi Biryani", price: 1095, desc: "Traditional slow-cooked mutton biryani." },
+                { name: "Paneer Biryani", price: 715, desc: "Fragrant paneer biryani." },
+                { name: "Curd", price: 165, desc: "Fresh plain curd." },
+                { name: "Raita", price: 185, desc: "Spiced yogurt raita." }
+            ],
+            "Koila Khana Set": [
+                { name: "Veg. Set", price: 465, desc: "Rice/Saag/Daal/Pickle/Salad/Dry Papad/Mattar Paneer/Mix Veg. Curry/Gundruk Achar/Curd & Ghee" },
+                { name: "Chicken Set", price: 525, desc: "Rice/Saag/Daal/Pickle/Salad/Dry Papad/Chicken Curry/Gundruk Achar/Curd & Ghee" },
+                { name: "Mutton Set", price: 765, desc: "Rice/Saag/Daal/Pickle/Salad/Dry Papad/Mutton Curry/Gundruk Achar/Curd & Ghee" },
+                { name: "Mutton Set With Pakku", price: 895, desc: "Rice/Saag/Daal/Pickle/Salad/Dry Papad/Mutton Curry/Gundruk Achar/Curd & Ghee (with Pakku)" }
+            ],
+            "Naan & Roti": [
+                { name: "Plain Naan", price: 95, desc: "Soft tandoor-baked plain naan." },
+                { name: "Butter Naan", price: 115, desc: "Naan brushed with butter." },
+                { name: "Garlic Naan", price: 225, desc: "Naan flavored with garlic." },
+                { name: "Buff Keema Naan", price: 225, desc: "Naan stuffed with spiced buff keema." },
+                { name: "Chicken Keema Naan", price: 225, desc: "Naan stuffed with spiced chicken keema." },
+                { name: "Tandoori Roti", price: 65, desc: "Whole wheat tandoori roti." },
+                { name: "Cheese Naan", price: 265, desc: "Naan stuffed with melted cheese." }
+            ],
+            "Veg. Curry": [
+                { name: "Mixed Veg. Curry", price: 285, desc: "Assorted seasonal vegetables in curry." },
+                { name: "Mattar Paneer", price: 295, desc: "Paneer and peas in rich gravy." },
+                { name: "Paneer Butter Masala", price: 425, desc: "Rich and creamy paneer butter masala." },
+                { name: "Daal (Plain)", price: 195, desc: "Comforting yellow lentils." }
+            ],
+            "Non-Veg. Curry": [
+                { name: "Mutton Curry", price: 645, desc: "Tender mutton pieces in rich Nepali gravy." },
+                { name: "Chicken Butter Masala", price: 445, desc: "Creamy chicken butter masala." },
+                { name: "Chicken Tikka Masala", price: 445, desc: "Grilled chicken tikka in spiced gravy." },
+                { name: "Chicken Curry", price: 365, desc: "Traditional home-style chicken curry." },
+                { name: "Egg Curry", price: 345, desc: "Boiled eggs in flavorful curry." }
+            ],
+            "Salad": [
+                { name: "Green Salad (Nepali Style)", price: 245, desc: "Fresh cucumber, carrot, onion & lemon." },
+                { name: "Russian Salad", price: 455, desc: "Creamy potato and vegetable salad." },
+                { name: "Seasonal Fruit Salad", price: 495, desc: "Fresh assorted seasonal fruits." }
+            ],
+            "Tandoori": [
+                { name: "Chicken Tandoori (Quarter)", price: 395, desc: "Quarter tandoori chicken." },
+                { name: "Chicken Tandoori (Half)", price: 635, desc: "Half tandoori chicken." },
+                { name: "Chicken Tandoori (Full)", price: 1245, desc: "Full tandoori chicken." },
+                { name: "Chicken Tikka", price: 495, desc: "Grilled chicken tikka pieces." },
+                { name: "Paneer Tikka", price: 495, desc: "Grilled paneer chunks." },
+                { name: "Chicken Seekh Kabab", price: 525, desc: "Minced chicken skewers." },
+                { name: "Reshami Kabab", price: 495, desc: "Melt-in-mouth chicken kababs." },
+                { name: "Tangdi Kabab", price: 495, desc: "Juicy chicken drumstick kababs." }
+            ],
+            "Sekuwa": [
+                { name: "Chicken Sekuwa (250gm)", price: 435, desc: "Charcoal grilled chicken sekuwa 250gm." },
+                { name: "Chicken Sekuwa (500gm)", price: 785, desc: "Charcoal grilled chicken sekuwa 500gm." },
+                { name: "Chicken Sekuwa (1000gm)", price: 1445, desc: "Charcoal grilled chicken sekuwa 1kg." },
+                { name: "Chicken Wings Poleko (250gm)", price: 435, desc: "Grilled wings 250gm." },
+                { name: "Chicken Wings Poleko (500gm)", price: 785, desc: "Grilled wings 500gm." },
+                { name: "Chicken Wings Poleko (1000gm)", price: 1445, desc: "Grilled wings 1kg." },
+                { name: "Buff Sekuwa (250gm)", price: 435, desc: "Charcoal grilled buff sekuwa 250gm." },
+                { name: "Buff Sekuwa (500gm)", price: 785, desc: "Charcoal grilled buff sekuwa 500gm." },
+                { name: "Buff Sekuwa (1000gm)", price: 1445, desc: "Charcoal grilled buff sekuwa 1kg." },
+                { name: "Pork Sekuwa (250gm)", price: 495, desc: "Charcoal grilled pork sekuwa 250gm." },
+                { name: "Pork Sekuwa (500gm)", price: 825, desc: "Charcoal grilled pork sekuwa 500gm." },
+                { name: "Pork Sekuwa (1000gm)", price: 1555, desc: "Charcoal grilled pork sekuwa 1kg." },
+                { name: "Mutton Sekuwa (250gm)", price: 845, desc: "Charcoal grilled mutton sekuwa 250gm." },
+                { name: "Mutton Sekuwa (500gm)", price: 1595, desc: "Charcoal grilled mutton sekuwa 500gm." },
+                { name: "Mutton Sekuwa (1000gm)", price: 2995, desc: "Charcoal grilled mutton sekuwa 1kg." }
+            ]
+        };
+
+        let selectedBranchName = "";
+        let selectedBranchPhone = "9800000000";
+        let cart = [];
+        let appliedDiscountPercent = 0;
+        let appliedPromoCodeName = "";
+
+        function openBranchModal() {
+            document.getElementById('branchModal').style.display = 'flex';
+        }
+
+        function selectBranch(branch, phone, hours) {
+            selectedBranchName = branch;
+            selectedBranchPhone = phone;
+            localStorage.setItem('koilaSelectedBranch', JSON.stringify({name: branch, phone: phone, hours: hours}));
+            document.getElementById('branchModal').style.display = 'none';
+            document.getElementById('displayBranch').innerHTML = `<i class="fas fa-map-marker-alt"></i> Koila - ${branch} <i class="fas fa-chevron-down" style="font-size: 10px; margin-left: 3px;"></i>`;
+            const menuTag = document.getElementById('menuBranchTag');
+            if (menuTag) menuTag.innerText = `Ordering from: Koila - ${branch} (Ph: ${phone})`;
+            document.getElementById('whatsappFloatLink').href = `https://wa.me/977${phone}?text=` + encodeURIComponent(`Hello, I want to place an order at Koila Restaurant - ${branch}.`);
+        }
+
+        function loadSavedBranch() {
+            const saved = localStorage.getItem('koilaSelectedBranch');
+            if (!saved) return;
+            try {
+                const b = JSON.parse(saved);
+                selectedBranchName = b.name;
+                selectedBranchPhone = b.phone;
+                document.getElementById('branchModal').style.display = 'none';
+                document.getElementById('displayBranch').innerHTML = `<i class="fas fa-map-marker-alt"></i> Koila - ${b.name} <i class="fas fa-chevron-down" style="font-size: 10px; margin-left: 3px;"></i>`;
+                const menuTag = document.getElementById('menuBranchTag');
+                if (menuTag) menuTag.innerText = `Ordering from: Koila - ${b.name} (Ph: ${b.phone})`;
+                document.getElementById('whatsappFloatLink').href = `https://wa.me/977${b.phone}?text=` + encodeURIComponent(`Hello, I want to place an order at Koila Restaurant - ${b.name}.`);
+            } catch(e) {}
+        }
+
+        function renderBestSellers() {
+            const container = document.getElementById('bestsellerContainer');
+            container.innerHTML = '';
+            
+            const bestSellersList = [
+                { name: "Chicken Hadi Biryani", price: 715, desc: "Traditional slow-cooked chicken biryani." },
+                { name: "Koila Special Pizza", price: 995, desc: "Loaded with mushroom, chicken, ham, olives & sweet corn." },
+                { name: "Chicken Sekuwa (500gm)", price: 785, desc: "Authentic charcoal grilled chicken sekuwa." },
+                { name: "Chicken Sizzler", price: 745, desc: "Sizzling hot chicken platter." },
+                { name: "Combo 2", price: 2250, desc: "Chicken Hadi Biryani, Sekuwa, Momo & Wings." }
+            ];
+
+            bestSellersList.forEach(item => {
+                let cartItem = cart.find(ci => ci.name === item.name);
+                let qty = cartItem ? cartItem.qty : 0;
+
+                let actionHtml = '';
+                if (qty === 0) {
+                    actionHtml = `<button class="add-btn" onclick="updateItemQty('${item.name}', ${item.price}, 1)">Add to Cart</button>`;
+                } else {
+                    actionHtml = `
+                        <div class="qty-control">
+                            <button class="qty-btn" onclick="updateItemQty('${item.name}', ${item.price}, -1)">-</button>
+                            <span class="qty-display">${qty}</span>
+                            <button class="qty-btn" onclick="updateItemQty('${item.name}', ${item.price}, 1)">+</button>
+                        </div>
+                    `;
+                }
+
+                container.innerHTML += `
+                    <div class="bestseller-card">
+                        <div class="item-info">
+                            <h4>${item.name}</h4>
+                            <p>${item.desc}</p>
+                        </div>
+                        <div class="item-footer" style="margin-top: 12px;">
+                            <span class="price">NPR ${item.price.toFixed(2)}</span>
+                            <div>${actionHtml}</div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderMenu(category = 'all', searchQuery = '') {
+            const container = document.getElementById('menuContainer');
+            container.innerHTML = '';
+
+            let query = searchQuery.toLowerCase().trim();
+
+            if (query !== '') {
+                let matchedItems = [];
+                Object.keys(menuData).forEach(cat => {
+                    menuData[cat].forEach(item => {
+                        if (item.name.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query)) {
+                            matchedItems.push(item);
+                        }
+                    });
+                });
+
+                if (matchedItems.length === 0) {
+                    container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 40px;">No dishes found matching "${searchQuery}".</p>`;
+                    return;
+                }
+
+                let sectionHtml = `
+                    <div class="menu-section">
+                        <h3>Search Results</h3>
+                        <div class="menu-grid">
+                `;
+
+                matchedItems.forEach(item => {
+                    let cartItem = cart.find(ci => ci.name === item.name);
+                    let qty = cartItem ? cartItem.qty : 0;
+                    let actionHtml = qty === 0 
+                        ? `<button class="add-btn" onclick="updateItemQty('${item.name}', ${item.price}, 1)">Add to Cart</button>`
+                        : `<div class="qty-control"><button class="qty-btn" onclick="updateItemQty('${item.name}', ${item.price}, -1)">-</button><span class="qty-display">${qty}</span><button class="qty-btn" onclick="updateItemQty('${item.name}', ${item.price}, 1)">+</button></div>`;
+
+                    sectionHtml += `
+                        <div class="menu-item">
+                            <div class="item-info">
+                                <h4>${item.name}</h4>
+                                <p>${item.desc}</p>
+                            </div>
+                            <div class="item-footer">
+                                <span class="price">NPR ${item.price.toFixed(2)}</span>
+                                <div>${actionHtml}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                sectionHtml += `</div></div>`;
+                container.innerHTML = sectionHtml;
+                return;
+            }
+
+            let categoriesToRender = category === 'all' ? Object.keys(menuData) : [category];
+
+            categoriesToRender.forEach(cat => {
+                let items = menuData[cat];
+                if (!items || items.length === 0) return;
+
+                let sectionHtml = `
+                    <div class="menu-section">
+                        <h3>${cat}</h3>
+                        <div class="menu-grid">
+                `;
+
+                items.forEach(item => {
+                    let cartItem = cart.find(ci => ci.name === item.name);
+                    let qty = cartItem ? cartItem.qty : 0;
+
+                    let actionHtml = qty === 0 
+                        ? `<button class="add-btn" onclick="updateItemQty('${item.name}', ${item.price}, 1)">Add to Cart</button>`
+                        : `<div class="qty-control"><button class="qty-btn" onclick="updateItemQty('${item.name}', ${item.price}, -1)">-</button><span class="qty-display">${qty}</span><button class="qty-btn" onclick="updateItemQty('${item.name}', ${item.price}, 1)">+</button></div>`;
+
+                    sectionHtml += `
+                        <div class="menu-item">
+                            <div class="item-info">
+                                <h4>${item.name}</h4>
+                                <p>${item.desc}</p>
+                            </div>
+                            <div class="item-footer">
+                                <span class="price">NPR ${item.price.toFixed(2)}</span>
+                                <div>${actionHtml}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                sectionHtml += `</div></div>`;
+                container.innerHTML += sectionHtml;
+            });
+        }
+
+        function renderCategories() {
+            const filterContainer = document.getElementById('categoryFilters');
+            Object.keys(menuData).forEach(cat => {
+                filterContainer.innerHTML += `<button class="cat-btn" onclick="filterCategory('${cat}', this)">${cat}</button>`;
+            });
+        }
+
+        function filterCategory(cat, btn) {
+            document.getElementById('menuSearchInput').value = '';
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+            else document.querySelector('.cat-btn').classList.add('active');
+            renderMenu(cat);
+        }
+
+        function handleSearch(query) {
+            renderMenu('all', query);
+        }
+
+        function toggleCart() {
+            document.getElementById('cartSidebar').classList.toggle('open');
+        }
+
+        function removeCartItem(name) {
+            cart = cart.filter(item => item.name !== name);
+            updateCartUI();
+        }
+
+        function updateItemQty(name, price, change) {
+            let existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.qty += change;
+                if (existingItem.qty <= 0) {
+                    cart = cart.filter(item => item.name !== name);
+                }
+            } else if (change > 0) {
+                cart.push({ name, price, qty: 1, request: "" });
+            }
+            
+            updateCartUI();
+            loadSavedBranch();
+
+        renderBestSellers();
+            
+            let query = document.getElementById('menuSearchInput').value;
+            const activeCatBtn = document.querySelector('.cat-btn.active');
+            let currentCat = activeCatBtn ? activeCatBtn.innerText : 'all';
+            if(currentCat === 'All Items') currentCat = 'all';
+            
+            renderMenu(currentCat, query);
+        }
+
+        function updateSpecialRequest(name, value) {
+            let item = cart.find(i => i.name === name);
+            if (item) item.request = value;
+        }
+
+        function applyPromoCode() {
+            let code = document.getElementById('promoInput').value.trim().toUpperCase();
+            let msgBox = document.getElementById('promoMsg');
+
+            if (code === "DISCOUNT10") {
+                appliedDiscountPercent = 10;
+                appliedPromoCodeName = "DISCOUNT10";
+                msgBox.style.color = "#25d366";
+                msgBox.innerText = "Promo code 'DISCOUNT10' applied (10% OFF on subtotal)!";
+            } else if (code === "KOILA20") {
+                appliedDiscountPercent = 20;
+                appliedPromoCodeName = "KOILA20";
+                msgBox.style.color = "#25d366";
+                msgBox.innerText = "Promo code 'KOILA20' applied (20% OFF on subtotal)!";
+            } else {
+                appliedDiscountPercent = 0;
+                appliedPromoCodeName = "";
+                msgBox.style.color = "var(--accent-red)";
+                msgBox.innerText = "Invalid promo code.";
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartList = document.getElementById('cartItemsList');
+            const cartCount = document.getElementById('cartCount');
+            const subtotalPriceEl = document.getElementById('cartSubtotalPrice');
+            const totalPriceEl = document.getElementById('cartTotalPrice');
+            const discountRow = document.getElementById('discountRow');
+            const discountNameText = document.getElementById('discountNameText');
+            const discountAmountText = document.getElementById('discountAmountText');
+            const mobileQuickBar = document.getElementById('mobileQuickBar');
+            const mobileQuickCount = document.getElementById('mobileQuickCount');
+            const mobileQuickTotal = document.getElementById('mobileQuickTotal');
+
+            cartList.innerHTML = '';
+            let totalCount = 0;
+            let subtotalPrice = 0;
+
+            if (cart.length === 0) {
+                cartList.innerHTML = '<p style="color: var(--text-muted); text-align: center;">Your cart is empty.</p>';
+                mobileQuickBar.classList.remove('active');
+            } else {
+                cart.forEach((item) => {
+                    totalCount += item.qty;
+                    subtotalPrice += item.price * item.qty;
+                    cartList.innerHTML += `
+                        <div class="cart-item">
+                            <div class="cart-item-top">
+                                <div>
+                                    <strong>${item.name}</strong><br>
+                                    <small style="color: var(--text-muted);">NPR ${item.price} x ${item.qty}</small>
+                                </div>
+                                <div style="display:flex; align-items:center; gap: 5px;">
+                                    <button style="background:var(--accent-red); border:none; color:white; padding:2px 8px; cursor:pointer;" onclick="updateItemQty('${item.name}', ${item.price}, -1)">-</button>
+                                    <span style="margin: 0 5px; font-weight:bold;">${item.qty}</span>
+                                    <button style="background:var(--accent-red); border:none; color:white; padding:2px 8px; cursor:pointer;" onclick="updateItemQty('${item.name}', ${item.price}, 1)">+</button>
+                                    <button aria-label="Remove item" title="Remove item" style="background:transparent; border:none; color:var(--accent-red); font-size:16px; cursor:pointer; margin-left:8px;" onclick="removeCartItem('${item.name}')"><i class="fas fa-trash-alt"></i></button>
+                                </div>
+                            </div>
+                            <input type="text" class="special-request-input" placeholder="Special request (e.g. less spicy)..." value="${item.request || ''}" oninput="updateSpecialRequest('${item.name}', this.value)">
+                        </div>
+                    `;
+                });
+                mobileQuickBar.classList.add('active');
+            }
+
+            let discountVal = (subtotalPrice * appliedDiscountPercent) / 100;
+            let finalTotal = subtotalPrice - discountVal;
+
+            subtotalPriceEl.innerText = `NPR ${subtotalPrice.toFixed(2)}`;
+            if (appliedDiscountPercent > 0) {
+                discountRow.style.display = 'flex';
+                discountNameText.innerText = appliedPromoCodeName;
+                discountAmountText.innerText = `- NPR ${discountVal.toFixed(2)}`;
+            } else {
+                discountRow.style.display = 'none';
+            }
+            totalPriceEl.innerText = `NPR ${finalTotal.toFixed(2)}`;
+            cartCount.innerText = totalCount;
+            
+            if(mobileQuickCount) mobileQuickCount.innerText = `${totalCount} Item(s) in Cart`;
+            if(mobileQuickTotal) mobileQuickTotal.innerText = `NPR ${finalTotal.toFixed(2)}`;
+        }
+
+        function checkoutWhatsApp() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            let name = document.getElementById('customerName').value.trim();
+            let phone = document.getElementById('customerPhone').value.trim();
+
+            if (!name || !phone) {
+                alert("Please fill in your Name and Phone Number/Address to order!");
+                return;
+            }
+
+            let branch = selectedBranchName || 'General';
+            let subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            let discountVal = (subtotal * appliedDiscountPercent) / 100;
+            let total = subtotal - discountVal;
+
+            let message = `*NEW ORDER - KOILA RESTAURANT* %0A`;
+            message += `----------------------------------%0A`;
+            message += `*Branch:* Koila - ${branch} %0A`;
+            message += `*Customer Name:* ${name} %0A`;
+            message += `*Phone/Address:* ${phone} %0A`;
+            if (appliedPromoCodeName) {
+                message += `*Promo Applied:* ${appliedPromoCodeName} (${appliedDiscountPercent}%% Off)%0A`;
+            }
+            message += `*Est. Preparation Time:* 25-35 mins %0A`;
+            message += `----------------------------------%0A`;
+            message += `*Items Ordered:* %0A`;
+
+            cart.forEach((item, index) => {
+                message += `${index + 1}. ${item.name} (x${item.qty}) - NPR ${item.price * item.qty}%0A`;
+                if (item.request) {
+                    message += `   _Note: ${item.request}_%0A`;
+                }
+            });
+
+            message += `----------------------------------%0A`;
+            message += `*Subtotal:* NPR ${subtotal.toFixed(2)}%0A`;
+            if (appliedDiscountPercent > 0) {
+                message += `*Discount:* - NPR ${discountVal.toFixed(2)}%0A`;
+            }
+            message += `*Total Amount:* *NPR ${total.toFixed(2)}* %0A`;
+            message += `----------------------------------%0A`;
+            message += `Please confirm my order. Thank you!`;
+
+            let whatsappUrl = `https://wa.me/977${selectedBranchPhone}?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+        }
+        function openReserveModal() {
+    document.getElementById('reserveModal').style.display = 'flex';
+}
+
+function closeReserveModal() {
+    document.getElementById('reserveModal').style.display = 'none';
+}
+
+function reserveTableWhatsApp() {
+    let name = document.getElementById('resName').value.trim();
+    let phone = document.getElementById('resPhone').value.trim();
+    let date = document.getElementById('resDate').value;
+    let time = document.getElementById('resTime').value;
+    let guests = document.getElementById('resGuests').value;
+
+    if (!name || !phone) {
+        alert('Please enter your full name and phone number for table reservation.');
+        return;
+    }
+
+    let message = `*Table Reservation Request*%0A`;
+    message += `----------------------------------%0A`;
+    message += `*Branch:* Koila - ${selectedBranchName || 'Gatthaghar'}%0A`;
+    message += `*Name:* ${name}%0A`;
+    message += `*Phone:* ${phone}%0A`;
+    if (date) message += `*Date:* ${date}%0A`;
+    if (time) message += `*Time:* ${time}%0A`;
+    message += `*Guests:* ${guests}%0A`;
+    message += `----------------------------------%0A`;
+    message += `Please confirm my table reservation. Thank you!`;
+
+    let whatsappUrl = `https://wa.me/977${selectedBranchPhone}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+    closeReserveModal();
+}
+
+        // Initialize App
+        renderCategories();
+        renderBestSellers();
+        renderMenu();
+    </script>
+</body>
+</html>
