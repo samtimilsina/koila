@@ -878,6 +878,28 @@
             color: var(--accent-orange);
         }
 
+        /* Social media colors */
+        .footer-col a.social-facebook:hover,
+        .footer-col a.social-facebook:hover i { color: #1877F2 !important; }
+
+        .footer-col a.social-instagram:hover,
+        .footer-col a.social-instagram:hover i { color: #E4405F !important; }
+
+        .footer-col a.social-tiktok:hover,
+        .footer-col a.social-tiktok:hover i { color: #25F4EE !important; }
+
+        /* Always show respective social media colors on mobile */
+        @media (max-width: 768px) {
+            .footer-col a.social-facebook,
+            .footer-col a.social-facebook i { color: #1877F2 !important; }
+
+            .footer-col a.social-instagram,
+            .footer-col a.social-instagram i { color: #E4405F !important; }
+
+            .footer-col a.social-tiktok,
+            .footer-col a.social-tiktok i { color: #25F4EE !important; }
+        }
+
         .footer-bottom {
             max-width: 1200px;
             margin: 0 auto;
@@ -1218,9 +1240,9 @@
                 <h3>Connect With Us</h3>
                 <p>Follow us on social media for updates and offers:</p>
                 <div style="display: flex; gap: 15px; margin-top: 12px; font-size: 24px;">
-                    <a href="https://www.facebook.com/koilamulticuisine" target="_blank" title="Facebook" style="color: var(--text-muted); transition: 0.3s;"><i class="fab fa-facebook"></i></a>
-                    <a href="https://www.instagram.com/koilamultiplecuisine/" target="_blank" title="Instagram" style="color: var(--text-muted); transition: 0.3s;"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.tiktok.com/@koilarestaurant?lang=en" target="_blank" title="TikTok" style="color: var(--text-muted); transition: 0.3s;"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://www.facebook.com/koilamulticuisine" target="_blank" title="Facebook" class="social-facebook" style="color: var(--text-muted); transition: 0.3s;"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/koilamultiplecuisine/" target="_blank" title="Instagram" class="social-instagram" style="color: var(--text-muted); transition: 0.3s;"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@koilarestaurant?lang=en" target="_blank" title="TikTok" class="social-tiktok" style="color: var(--text-muted); transition: 0.3s;"><i class="fab fa-tiktok"></i></a>
                 </div>
             </div>
         </div>
