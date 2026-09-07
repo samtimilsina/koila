@@ -70,7 +70,7 @@
             backdrop-filter: blur(2px);
         }
         .loader-content { position: relative; text-align: center; }
-        .loader-content img { width: 120px; height: 120px; object-fit: contain; border-radius: 50%; animation: loaderPulse 1.5s ease-in-out infinite; }
+        .loader-content img { width: 190px; height: 190px; object-fit: contain; border-radius: 50%; animation: loaderPulse 1.5s ease-in-out infinite; }
         .loader-content p { margin-top: 18px; color: #fff; font-size: 14px; letter-spacing: 1px; }
         .loader-bar { width: 150px; height: 3px; margin: 14px auto 0; background: rgba(255,255,255,.18); border-radius: 10px; overflow: hidden; }
         .loader-bar span { display: block; width: 45%; height: 100%; background: linear-gradient(90deg, var(--accent-red), var(--accent-orange)); border-radius: 10px; animation: loaderMove 1s ease-in-out infinite alternate; }
@@ -1052,6 +1052,89 @@
             .reservation-field.full { grid-column: auto; }
         }
 
+
+        /* Mobile screen overflow fix */
+        html, body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .logo-area {
+                min-width: 0;
+                flex: 1;
+            }
+
+            .logo-area h1 {
+                white-space: normal;
+                word-break: break-word;
+            }
+
+            .nav-links {
+                flex-shrink: 0;
+            }
+
+            .container,
+            .festival-offer-section,
+            .action-section {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .hero-info-card,
+            .action-card,
+            .reservation-modal-card {
+                max-width: 100%;
+            }
+
+            .loader-content img {
+                width: 220px;
+                height: 220px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .loader-content img {
+                width: 200px;
+                height: 200px;
+            }
+
+            .logo-area h1 {
+                font-size: 15px !important;
+            }
+
+            .nav-links {
+                gap: 6px;
+            }
+
+            .branch-tag {
+                padding: 6px 9px;
+                font-size: 11px;
+                max-width: 120px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .header-menu-btn {
+                padding: 7px 9px;
+                font-size: 11px;
+            }
+
+            .action-section,
+            .festival-offer-section,
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -1059,7 +1142,7 @@
     <div class="website-loader" id="websiteLoader">
         <div class="loader-content">
             <img src="image/bg.png" alt="Koila Restaurant">
-            <p>Loading Koila Restaurant...</p>
+            <p>Koila Multi Cuisine Restaurant</p>
             <div class="loader-bar"><span></span></div>
         </div>
     </div>
@@ -1075,10 +1158,10 @@
     </div>
 
    <header>
-        <div class="logo-area" style="display: flex; align-items: center; gap: 12px;">
+        <a href="index.html" class="logo-area" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
             <img src="image/bg.png" alt="Koila Logo" style="width: 40px; height: 40px; object-fit: contain; border-radius: 50%;">
             <h1 style="margin: 0; font-size: 22px;">Koila Multi Cuisine Restaurant</h1>
-        </div>
+        </a>
         <div class="nav-links">
             <span id="displayBranch" class="branch-tag" onclick="openBranchModal()" title="Click to change location">
                 <i class="fas fa-map-marker-alt"></i> Select Branch
