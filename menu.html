@@ -499,6 +499,15 @@
             display: none;
         }
 
+        .item-photo {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
         .bestseller-card {
             min-width: 260px;
             background: var(--card-bg);
@@ -1385,6 +1394,21 @@
             } catch(e) {}
         }
 
+        // Generates a placeholder food photo that roughly matches the dish name/category.
+        // Replace item.img manually later with your own real photos when ready.
+        function getItemImage(item, category) {
+            if (item.img) return item.img;
+            let cleanName = item.name.replace(/\(.*?\)/g, '').replace(/[^a-zA-Z\s]/g, ' ');
+            let stopWords = ['with', 'and', 'extra', 'plate', 'plt', 'pcs', 'fresh', 'style', 'special', 'koila', 'combo'];
+            let words = cleanName.toLowerCase().split(/\s+/).filter(w => w.length > 2 && !stopWords.includes(w));
+            let keyword = words.slice(0, 2).join(',');
+            if (!keyword) {
+                keyword = category.replace(/[^a-zA-Z\s]/g, ' ').trim().split(/\s+/).slice(0, 2).join(',').toLowerCase();
+            }
+            keyword = keyword || 'food';
+            return `https://loremflickr.com/320/220/${encodeURIComponent(keyword)},food`;
+        }
+
         function renderBestSellers() {
             const container = document.getElementById('bestsellerContainer');
             container.innerHTML = '';
@@ -1504,6 +1528,7 @@
 
                     sectionHtml += `
                         <div class="menu-item">
+                            <img src="${getItemImage(item, cat)}" alt="${item.name}" class="item-photo" loading="lazy">
                             <div class="item-info">
                                 <h4>${item.name}</h4>
                                 <p>${item.desc}</p>
@@ -1682,17 +1707,17 @@
             let discountVal = (subtotal * appliedDiscountPercent) / 100;
             let total = subtotal - discountVal;
 
-            let message = `NEW ORDER - KOILA RESTAURANT %0A`;
+            let message = `*NEW ORDER - KOILA RESTAURANT* %0A`;
             message += `----------------------------------%0A`;
-            message += `Branch: Koila - ${branch} %0A`;
-            message += `Customer Name: ${name} %0A`;
-            message += `Phone/Address: ${phone} %0A`;
+            message += `*Branch:* Koila - ${branch} %0A`;
+            message += `*Customer Name:* ${name} %0A`;
+            message += `*Phone/Address:* ${phone} %0A`;
             if (appliedPromoCodeName) {
                 message += `*Promo Applied:* ${appliedPromoCodeName} (${appliedDiscountPercent}%% Off)%0A`;
             }
-            message += `Est. Preparation Time: 25-35 mins %0A`;
+            message += `*Est. Preparation Time:* 25-35 mins %0A`;
             message += `----------------------------------%0A`;
-            message += `Items Ordered: %0A`;
+            message += `*Items Ordered:* %0A`;
 
             cart.forEach((item, index) => {
                 message += `${index + 1}. ${item.name} (x${item.qty}) - NPR ${item.price * item.qty}%0A`;
@@ -1702,11 +1727,11 @@
             });
 
             message += `----------------------------------%0A`;
-            message += `Subtotal: NPR ${subtotal.toFixed(2)}%0A`;
+            message += `*Subtotal:* NPR ${subtotal.toFixed(2)}%0A`;
             if (appliedDiscountPercent > 0) {
-                message += `Discount: - NPR ${discountVal.toFixed(2)}%0A`;
+                message += `*Discount:* - NPR ${discountVal.toFixed(2)}%0A`;
             }
-            message += `Total Amount:* *NPR ${total.toFixed(2)} %0A`;
+            message += `*Total Amount:* *NPR ${total.toFixed(2)}* %0A`;
             message += `----------------------------------%0A`;
             message += `Please confirm my order. Thank you!`;
 
