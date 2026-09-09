@@ -971,6 +971,147 @@
             .footer-col a[title="TikTok"],
             .footer-col a[title="TikTok"] i { color: #00f2ea !important; }
         }
+
+        /* Mobile overflow protection - keeps the existing design unchanged */
+        html, body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        img, video, iframe {
+            max-width: 100%;
+        }
+
+        header,
+        .container,
+        .search-bar-container,
+        .hero,
+        .festival-offer-section,
+        footer {
+            max-width: 100%;
+        }
+
+        .logo-area,
+        .nav-links,
+        .hero-info-card,
+        .menu-item,
+        .bestseller-card {
+            min-width: 0;
+        }
+
+        .logo-area h1,
+        .branch-tag,
+        .cart-icon-btn,
+        .item-info h4,
+        .item-info p,
+        .footer-col p,
+        .footer-col li {
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                width: 100%;
+                max-width: 100%;
+                padding: 10px 12px;
+                gap: 8px;
+            }
+
+            .logo-area {
+                flex: 1 1 auto;
+                min-width: 0;
+                gap: 8px !important;
+            }
+
+            .logo-area img {
+                width: 34px !important;
+                height: 34px !important;
+                flex: 0 0 34px;
+            }
+
+            .logo-area h1 {
+                font-size: 15px !important;
+                line-height: 1.2;
+                letter-spacing: .5px;
+            }
+
+            .nav-links {
+                flex: 0 1 auto;
+                min-width: 0;
+                max-width: 48%;
+                gap: 5px;
+                justify-content: flex-end;
+                flex-wrap: wrap;
+            }
+
+            .nav-links .branch-tag,
+            .nav-links .cart-icon-btn {
+                max-width: 100%;
+                min-width: 0;
+                padding: 5px 8px;
+                font-size: 11px;
+                gap: 4px;
+            }
+
+            .search-bar-container {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .hero-info-card {
+                max-width: 100%;
+            }
+
+            .menu-grid {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .menu-item,
+            .bestseller-card {
+                max-width: 100%;
+            }
+
+            .footer-content {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                align-items: center;
+            }
+
+            .logo-area h1 {
+                font-size: 13px !important;
+            }
+
+            .nav-links {
+                max-width: 52%;
+            }
+
+            .nav-links .branch-tag {
+                max-width: 100%;
+            }
+
+            .nav-links .cart-icon-btn {
+                padding: 5px 7px;
+            }
+
+            .hero {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .container {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+        }
+
 </style>
 </head>
 <body>
