@@ -244,61 +244,152 @@
             .achar-popup-skip { margin-top: 6px; }
         }
 
-        /* Location Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-        }
+      /* Location Popup */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999 !important;
+    pointer-events: auto !important;
+}
 
-        .modal-content {
-            background: rgba(30, 30, 30, 0.95);
-            padding: 40px;
-            border-radius: 12px;
-            text-align: center;
-            max-width: 450px;
-            width: 90%;
-            border: 2px solid var(--accent-red);
-            box-shadow: 0 10px 30px rgba(230, 46, 0, 0.3);
-        }
+.modal-content {
+    position: relative;
+    z-index: 100000 !important;
+    pointer-events: auto !important;
 
-        .modal-content h2 {
-            margin-bottom: 15px;
-            color: var(--accent-orange);
-        }
+    background: rgba(30, 30, 30, 0.95);
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    border: 2px solid #e62e00;
+    box-shadow: 0 10px 30px rgba(230, 46, 0, 0.3);
+}
 
-        .modal-content p {
-            color: var(--text-muted);
-            margin-bottom: 25px;
-        }
 
-        .branch-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+/* Redesigned Location Popup */
+#branchModal .modal-content {
+    max-width: 760px !important;
+    width: min(90%, 760px) !important;
+    padding: 22px !important;
+    border-radius: 20px !important;
+    background: rgba(20, 20, 20, 0.98) !important;
+    border: 1px solid rgba(255, 102, 0, 0.45) !important;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.65) !important;
+}
 
-        .branch-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
+#branchModal .modal-content h2 {
+    font-size: 23px !important;
+    margin-bottom: 6px !important;
+    color: #ff6600;
+}
 
+#branchModal .modal-content > p {
+    margin-bottom: 14px !important;
+    font-size: 13px !important;
+    color: #b0b0b0;
+}
+
+#branchModal .branch-btn {
+    display: inline-flex !important;
+    vertical-align: top;
+    flex-direction: column;
+    width: calc(33.333% - 10px) !important;
+    margin: 5px !important;
+    padding: 0 !important;
+    overflow: hidden;
+    text-align: left;
+
+    background: rgba(30, 30, 30, 0.92) !important;
+    border: 1px solid rgba(255, 102, 0, 0.38) !important;
+    border-radius: 14px !important;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+
+    cursor: pointer;
+}
+
+#branchModal .branch-btn:hover {
+    background: rgba(45, 45, 45, 0.98) !important;
+    border-color: #ff6600 !important;
+    transform: translateY(-5px);
+    box-shadow: 0 14px 35px rgba(230, 46, 0, 0.22);
+}
+
+#branchModal .branch-location-image {
+    width: 100%;
+    height: 115px;
+    object-fit: cover;
+    display: block;
+    background: #1e1e1e;
+}
+
+#branchModal .branch-location-name {
+    display: block;
+    min-height: 52px;
+    padding: 10px 12px !important;
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.45;
+    font-weight: 600;
+}
+
+#branchModal .branch-location-name i {
+    color: #ff6600;
+    margin-right: 6px;
+}
+
+
+/* Mobile */
+@media (max-width: 700px) {
+
+    #branchModal .modal-content {
+        width: 94% !important;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 22px 14px !important;
+        border-radius: 18px !important;
+    }
+
+    #branchModal .modal-content h2 {
+        font-size: 23px !important;
+    }
+
+    #branchModal .branch-btn {
+        display: flex !important;
+        width: 100% !important;
+        margin: 8px 0 !important;
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    #branchModal .branch-location-image {
+        width: 36%;
+        min-width: 100px;
+        height: 88px;
+    }
+
+    #branchModal .branch-location-name {
+        display: flex;
+        align-items: center;
+        min-height: auto;
+        padding: 12px !important;
+        font-size: 13px;
+    }
+}
         /* Header & Navbar */
         header {
             background: rgba(18, 18, 18, 0.9);
@@ -1518,15 +1609,60 @@
     </div>
 
 
-    <div class="modal-overlay" id="branchModal" style="display: none;">
-        <div class="modal-content">
-            <h2>Koila Multi Cuisine Restaurant</h2>
-            <p>Please select your preferred restaurant location to proceed:</p>
-            <button class="branch-btn" onclick="selectBranch('Gatthaghar', '9761799545', '10:00 AM - 10:00 PM')">Koila - Gatthaghar (Ph: 9761799545)</button>
-            <button class="branch-btn" onclick="selectBranch('Sankhamul', '9863595640', '10:00 AM - 10:00 PM')">Koila - Sankhamul, Dovan Pool (Ph: 9863595640)</button>
-            <button class="branch-btn" onclick="selectBranch('Shorakhutte', '9841996645', '07:00 AM - 10:00 PM')">Koila - Shorakhutte (Ph: 9841996645)</button>
-        </div>
+<!-- Location Popup -->
+<div class="modal-overlay" id="branchModal">
+    <div class="modal-content">
+
+        <h2>Koila Multi Cuisine Restaurant</h2>
+
+        <p>Please select your preferred restaurant location to proceed:</p>
+
+        <button class="branch-btn"
+            onclick="selectBranch('Gatthaghar', '9761799545', '10:00 AM - 10:00 PM')">
+
+            <img src="https://raw.githubusercontent.com/samtimilsina/koila/main/location/gatthaghar.png"
+                 alt="Koila Gatthaghar Location"
+                 class="branch-location-image">
+
+            <span class="branch-location-name">
+                <i class="fas fa-map-marker-alt"></i>
+                Koila - Gatthaghar (Ph: 9761799545)
+            </span>
+
+        </button>
+
+
+        <button class="branch-btn"
+            onclick="selectBranch('Sankhamul', '9863595640', '10:00 AM - 10:00 PM')">
+
+            <img src="https://raw.githubusercontent.com/samtimilsina/koila/main/location/sankhamul.png"
+                 alt="Koila Sankhamul Location"
+                 class="branch-location-image">
+
+            <span class="branch-location-name">
+                <i class="fas fa-map-marker-alt"></i>
+                Koila - Sankhamul, Dovan Pool (Ph: 9863595640)
+            </span>
+
+        </button>
+
+
+        <button class="branch-btn"
+            onclick="selectBranch('Shorakhutte', '9841996645', '07:00 AM - 10:00 PM')">
+
+            <img src="https://raw.githubusercontent.com/samtimilsina/koila/main/location/shorakhutte.png"
+                 alt="Koila Shorakhutte Location"
+                 class="branch-location-image">
+
+            <span class="branch-location-name">
+                <i class="fas fa-map-marker-alt"></i>
+                Koila - Shorakhutte (Ph: 9841996645)
+            </span>
+
+        </button>
+
     </div>
+</div>
 
    <header>
         <a href="index.html" class="logo-area" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
@@ -1819,5 +1955,48 @@ Please confirm my table reservation. Thank you!`;
 
         document.getElementById('reserveModal').addEventListener('click', function(e) { if (e.target === this) closeReserveModal(); });
     </script>
+    <script>
+let selectedBranchName = "";
+let selectedBranchPhone = "9800000000";
+
+function openBranchModal() {
+    document.getElementById('branchModal').style.display = 'flex';
+}
+
+function selectBranch(branch, phone, hours) {
+
+    selectedBranchName = branch;
+    selectedBranchPhone = phone;
+
+    localStorage.setItem(
+        'koilaSelectedBranch',
+        JSON.stringify({
+            name: branch,
+            phone: phone,
+            hours: hours
+        })
+    );
+
+    document.getElementById('branchModal').style.display = 'none';
+
+    const displayBranch = document.getElementById('displayBranch');
+
+    if (displayBranch) {
+        displayBranch.innerHTML =
+            `<i class="fas fa-map-marker-alt"></i>
+             Koila - ${branch}
+             <i class="fas fa-chevron-down"
+                style="font-size:10px;margin-left:3px;"></i>`;
+    }
+
+    const menuBranchTag = document.getElementById('menuBranchTag');
+
+    if (menuBranchTag) {
+        menuBranchTag.innerHTML =
+            `<i class="fas fa-map-marker-alt"></i>
+             Selected Branch: ${branch}`;
+    }
+}
+</script>
 </body>
 </html>
